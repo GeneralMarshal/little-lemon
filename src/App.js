@@ -1,18 +1,14 @@
+import {  Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import BookingPage from "./pages/BookingPage";
 
-import './App.css';
-import Nav from "./components/Nav"
-import Header from './components/Header';
-import DishCard from './components/DishCard.js';
-import Main from './components/Main.js';
-
-function App() {
+export default function App() {
   return (
-    <>
-      <Nav/>
-      <Header/>
-      <Main/>
-    </>
+    
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/booking" element={<BookingPage />} />
+      </Routes>
+    
   );
 }
-
-export default App;
