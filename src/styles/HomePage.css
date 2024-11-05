@@ -1,9 +1,14 @@
+nav{
+    height: 120px;
+}
 .nav-links li {
     font-weight: 600;
     margin: 10px;
     font-size: 14px;
 }
-
+.drop-btn{
+    margin: 10px;
+}
 header {
     position: relative;
     width: 100%;
@@ -119,4 +124,40 @@ header {
     .llb {
         color: black;
     }
+    nav{
+        height: 70px;
+    }
+    .header-content{
+        padding-left: 0px;
+        padding-right:0px;
+        justify-content: space-between;
+    }
+    .nav{
+        width: 100vw;
+    }
+    .nav-links{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background-color: #495e57;
+        z-index: 20;
+    }
+    .nav-links li{
+        height: 40px;
+        color: white;
+        width: 100%;
+        border-bottom: 1px solid grey;
+        margin: 0;
+        display: flex;
+        justify-content: center ;
+        align-items: center;
+    }
+    .drop-btn{
+        margin-right: 20px;
+        cursor: pointer;
+        display: flex;
+    }
+
 }

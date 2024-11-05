@@ -1,80 +1,77 @@
 import BookingForm from "../components/BookingForm";
-import TestComponent from "../components/TestComponent";
-import { useEffect, useState } from "react";
-import { useReducer } from "react";
+import "../styles/BookingPage.css";
 
-//Import the functions from the utils folder...they need to be exported for you to import them
-import { seededRandom, fetchAPI, submitAPI } from "../utils/functions";
-
+import { useEffect, useReducer, useState } from "react";
+import Nav from "../components/Nav";
 
 
 export default function BookingPage() {
-  const [apiReady, setApiReady] = useState(false);
-  const [availableTimes, dispatch] = useReducer(updateTimes, initializeTimes());
-  const [script, setScript] = useReducer()
-//   const [response, setResponse] = useState()
 
-  
-  useEffect(() => {
-    const fetchScript = async () => {
-      //No need for these
-      /*
-      const response = await fetch(
-        "https://raw.githubusercontent.com/courseraap/capstone/main/api.js"
-      );
-      const script = await response.text();
-      */
 
-      //Now you can use then here by calling them
-      const result1 = seededRandom();
-      const result2 = fetchAPI();
-      const result3 = submitAPI();
-      
-      console.log(result1);
-      console.log(result2);
-      console.log(result3);
+const seededRandom = function (seed) {
+  var m = 2 ** 35 - 31;
+  var a = 185852;
+  var s = seed % m;
+  return function () {
+    return (s = (s * a) % m) / m;
+  };
+};
 
-      try {
-        console.log(script)
-        eval(script)
-        setApiReady(true);
-        dispatch({ type: "initialize" });
-      } catch (error) {
-        console.log("there was an error fetching the api: ", error);
-      }
-    };
-    fetchScript();
+const fetchAPI = function (date) {
+  let result = [];
+  let random = seededRandom(date.getDate());
 
-  }, []);
-        
-  
-  
-
-  function updateTimes(state, action) {
-    switch (action.type) {
-      case "initialize":
-        if (apiReady) {
-          return fetchAPI(new Date());
-        }
-        return state;
-      default:
-        return state;
+  for (let i = 17; i <= 23; i++) {
+    if (random() < 0.5) {
+      result.push(i + ":00");
+    }
+    if (random() < 0.5) {
+      result.push(i + ":30");
     }
   }
+  return result;
+};
+const submitAPI = function (formData) {
+  return true;
+};
 
-  function initializeTimes() {
-   return ["17:00", "18:00", "19:00", "20:00", "21:00", "22:00"];
+const [availableTimes, dispatch] = useReducer(reducer, initializeTimes());
+
+function initializeTimes(){
+    return {availableTimes: fetchAPI(new Date())}
+}
+
+function reducer(state, action){
+    switch(action.type){
+        case "update":
+            return {availableTimes: fetchAPI(new Date(action.payload))}
+        default :
+        return state
+    }
+
+
+
+}
+
+function submitForm(formData){
+  if(submitAPI(formData)){
+    console.log("confirmed")
   }
+}
 
-  function submitForm() {}
 
   return (
     <>
-      <BookingForm
-        availableTimes={availableTimes}
-        dispatch={dispatch}
-        submitForm={submitForm}
-      />
+      <Nav />
+      <main className=" booking-main ">
+        <h1 className=" text-[22px] font-[600]">Make Your Reservation!</h1>
+        <BookingForm
+          availableTimes={availableTimes.availableTimes}
+          dispatch={dispatch}
+          submitForm={submitForm}
+        />
+      </main>
     </>
   );
 }
+    

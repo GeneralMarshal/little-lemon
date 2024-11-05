@@ -1,5 +1,9 @@
-
+import { useNavigate } from "react-router-dom";
 export default function Header(){
+  const navigate = useNavigate()
+  function reserveHandler(){
+    navigate("/booking")
+  }
     return (
       <>
         <header className=" header">
@@ -14,7 +18,7 @@ export default function Header(){
               We are a family owned mediterranean resturant, focused on
               traditional recipies served with a modern twist,
             </p>
-            <button className="llb ">
+            <button className="llb " onClick={()=>reserveHandler()}>
               Reserve a table
             </button>
             <div className="featured-dish">
